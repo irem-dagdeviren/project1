@@ -46,3 +46,8 @@ allprojects {
         useJUnitPlatform()
     }
 }
+configurations {
+    compileOnly{
+        extendsFrom annotationProcessor
+    }
+}
