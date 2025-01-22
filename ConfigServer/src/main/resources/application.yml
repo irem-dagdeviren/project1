@@ -1,0 +1,17 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server-git
+  cloud:
+    config:
+      server:
+        git:
+          uri: "https://github.com/irem-dagdeviren/config-server.git"
+          default-label: "main"
+          skip-ssl-validation: true
+          username: "irem-dagdeviren"
+          password: ${GIT_KEY}
+        properties:
+          http.postBuffer: 524288000

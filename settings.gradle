@@ -1,4 +1,5 @@
 rootProject.name = 'project1'
 include 'AuthMicroservice'
 include 'UserMicroservice'
+include 'ConfigServer'
 

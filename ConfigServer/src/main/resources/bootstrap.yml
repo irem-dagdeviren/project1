@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: config-server-git
+  profiles:
+    active: development
+logging:
+  level:
+    org.springframework.cloud.config.server.environment: DEBUG
+
