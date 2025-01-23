@@ -9,4 +9,6 @@ public interface UserProfileService {
     void createUser(CreateUserRequestDTO dto);
 
     List<UserProfile> getAllUsers();
+
+    String getUpperName(String name);
 }
