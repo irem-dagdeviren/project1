@@ -10,5 +10,6 @@ public class RestApis {
 
     public static final String CREATE_USER = "/create-user";
     public static final String GET_ALL = "/get-all";
+    public static final String UPPER_NAME = "/upper-name";
 
 }
