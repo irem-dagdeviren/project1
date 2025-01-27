@@ -14,5 +14,5 @@ public class RestApis {
 
     public static final String CREATE_USER = "/create-user";
     public static final String USERPROFILE = DEVELOPER + VERSIONS + "/user-profile";
-    public static final String BASE_URL = "http://localhost:9090";
+    public static final String BASE_URL = "http://service-loadbalancer-user:9091";
 }
