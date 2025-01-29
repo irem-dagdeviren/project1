@@ -13,7 +13,7 @@ allprojects {
     apply from: "${rootDir}/dependencies.gradle"
 }
 subprojects {
-    group = 'org.irem'
+    group = 'org.project'
     version = 'v.0.1'
     java{
         sourceCompatibility = JavaVersion.VERSION_17
