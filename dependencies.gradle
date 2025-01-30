@@ -4,16 +4,23 @@ ext {
             springCloud : '4.1.4',
             postgreSQL  : '42.7.5',
             lombok      : '1.18.36',
-            swagger     : '2.6.0'
+            swagger     : '2.6.0',
+            vaadin      : '24.6.0'
     ]
     libs = [
             springBootStarterWeb            : "org.springframework.boot:spring-boot-starter-web:${versions.springBoot}",
             sprinBootDataJpa                : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.springBoot}",
             sprinBootDataRedis              : "org.springframework.boot:spring-boot-starter-data-redis:${versions.springBoot}",
+            sprinBootStarterSecurity        : "org.springframework.boot:spring-boot-starter-security:${versions.springBoot}",
+            sprinBootStarterOAuth2          : "org.springframework.boot:spring-boot-starter-oauth2-resource-server:${versions.springBoot}",
             springCloudStarterOpenFeigh     : "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.springCloud}",
             springCloudConfig               : "org.springframework.cloud:spring-cloud-starter-config:${versions.springCloud}",
             springCloudConfigServer         : "org.springframework.cloud:spring-cloud-config-server:${versions.springCloud}",
             springCloudConfigClient         : "org.springframework.cloud:spring-cloud-config-client:${versions.springCloud}",
+            springVaadin                    : "com.vaadin:vaadin-spring:${versions.vaadin}",
+            springVaadinOrderedLayout       : "com.vaadin:vaadin-ordered-layout-flow:${versions.vaadin}",
+            springVaadinGridFlow            : "com.vaadin:vaadin-grid-flow:${versions.vaadin}",
+            springVaadinStarter             : "com.vaadin:vaadin-spring-boot-starter:${versions.vaadin}",
             springBootDataMongo             : "org.springframework.boot:spring-boot-starter-data-mongodb:${versions.springBoot}",
             postgreSQL                      : "org.postgresql:postgresql:${versions.postgreSQL}",
             lombok                          : "org.projectlombok:lombok:${versions.lombok}",
