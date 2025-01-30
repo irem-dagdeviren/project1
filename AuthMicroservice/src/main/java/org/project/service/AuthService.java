@@ -4,8 +4,11 @@ import org.project.dto.request.LoginRequestDTO;
 import org.project.dto.request.RegisterRequestDTO;
 import org.project.entity.Auth;
 
+import java.util.List;
+
 
 public interface AuthService {
     Auth register(RegisterRequestDTO dto);
-    Boolean login(LoginRequestDTO dto);
+    Boolean hasRegistered(LoginRequestDTO dto);
+    List<Auth> getAll();
 }

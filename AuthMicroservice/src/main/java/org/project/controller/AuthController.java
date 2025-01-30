@@ -1,5 +1,6 @@
 package org.project.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.project.dto.request.LoginRequestDTO;
 import org.project.dto.request.RegisterRequestDTO;
@@ -7,10 +8,8 @@ import org.project.entity.Auth;
 import org.project.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.*;
 
 import static org.project.config.RestApis.*;
 
@@ -27,9 +26,14 @@ public class AuthController {
         return new ResponseEntity<>(authService.register(dto), HttpStatus.CREATED);
     }
 
-    @PostMapping(LOGIN)
-    public ResponseEntity<Boolean> login(@RequestBody LoginRequestDTO dto) {
-        return ResponseEntity.ok(authService.login(dto));
+    @PostMapping(REGISTERED)
+    public ResponseEntity<Boolean> hasRegistered(@RequestBody LoginRequestDTO dto) {
+        return ResponseEntity.ok(authService.hasRegistered(dto));
 
+    }
+
+    @GetMapping(TOKEN)
+    public CsrfToken getCsrfToken(HttpServletRequest request) {
+        return (CsrfToken) request.getAttribute("_csrf");
     }
 }
