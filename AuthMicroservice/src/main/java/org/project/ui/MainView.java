@@ -1,5 +1,6 @@
 package org.project.ui;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -12,6 +13,9 @@ import jakarta.annotation.security.RolesAllowed;
 import org.project.entity.Auth;
 import org.project.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Route("")
 @RolesAllowed("USER")
@@ -27,6 +31,13 @@ public class MainView extends VerticalLayout {
 
     @Autowired
     public MainView(AuthService authService) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() ||
+                authentication instanceof AnonymousAuthenticationToken) {
+            UI.getCurrent().getPage().setLocation("login"); // Redirect if not authenticated
+        }
+
         this.authService = authService;
         addClassName("list-view");
         setSizeFull();
