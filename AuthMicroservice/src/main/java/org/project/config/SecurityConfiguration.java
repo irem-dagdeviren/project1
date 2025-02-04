@@ -1,14 +1,10 @@
 package org.project.config;
 
-import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.spring.security.VaadinWebSecurity;
-import org.project.ui.LoginView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,16 +24,10 @@ import static org.project.config.RestApis.LOGIN;
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
-public class SecurityConfiguration extends VaadinWebSecurity {
+public class SecurityConfiguration {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        setLoginView(http, LoginView.class);
-    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -58,17 +48,7 @@ public class SecurityConfiguration extends VaadinWebSecurity {
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**", "/v2/api-docs*/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage(LOGIN) // Vaadin Login Form
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl(LOGIN)
-                        .permitAll())
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        ;
+                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
@@ -77,14 +57,10 @@ public class SecurityConfiguration extends VaadinWebSecurity {
         return new MvcRequestMatcher.Builder(introspector);
     }
 
-    public static void logout() {
-        VaadinSession.getCurrent().getSession().invalidate();
-    }
-
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.withUsername("user")
-                .password("{noop}password") // {noop} means no encoding
+                .password(new BCryptPasswordEncoder(12).encode("password")) // Properly encoded password
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);

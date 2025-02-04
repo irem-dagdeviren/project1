@@ -7,7 +7,4 @@ dependencies {
     implementation libs.springCloudConfigClient
     implementation libs.sprinBootStarterSecurity
     implementation libs.sprinBootStarterOAuth2
-    implementation libs.springVaadin
-    implementation libs.springVaadinOrderedLayout
-    implementation libs.springVaadinGridFlow
 }
