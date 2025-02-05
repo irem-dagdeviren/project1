@@ -2,6 +2,8 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+  web:
+    locale: en
   config:
     import: "configserver:"
   application:
@@ -21,3 +23,4 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui/index.html
+

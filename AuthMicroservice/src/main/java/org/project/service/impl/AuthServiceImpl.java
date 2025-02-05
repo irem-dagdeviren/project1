@@ -5,9 +5,11 @@ import org.project.dto.request.CreateUserRequestDTO;
 import org.project.dto.request.LoginRequestDTO;
 import org.project.dto.request.RegisterRequestDTO;
 import org.project.entity.Auth;
+import org.project.exception.NotUniqueEmailException;
 import org.project.manager.UserProfileManager;
 import org.project.repository.AuthRepository;
 import org.project.service.AuthService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +23,22 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
 
     public Auth register(RegisterRequestDTO dto) {
-        Auth auth = authRepository.save(Auth.builder()
-                .userName(dto.getUsername())
-                .email(dto.getEmail())
-                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-                .build());
+        try{
+            Auth auth = authRepository.save(Auth.builder()
+                    .userName(dto.getUsername())
+                    .email(dto.getEmail())
+                    .password(bCryptPasswordEncoder.encode(dto.getPassword()))
+                    .build());
 
-        userProfileManager.createUser(CreateUserRequestDTO.builder()
-                .authId(auth.getId())
-                .email(auth.getEmail())
-                .username(auth.getUserName())
-                .build());
-        return auth;
+            userProfileManager.createUser(CreateUserRequestDTO.builder()
+                    .authId(auth.getId())
+                    .email(auth.getEmail())
+                    .username(auth.getUserName())
+                    .build());
+            return auth;
+        }catch(DataIntegrityViolationException exception){
+            throw new NotUniqueEmailException();
+        }
     }
 
     public Boolean hasRegistered(LoginRequestDTO dto) {

@@ -11,13 +11,13 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="auth")
+@Table(name="auth", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class Auth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "User name cannot be blank")
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
     @NotBlank(message = "Password cannot be blank")

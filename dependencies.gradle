@@ -12,6 +12,7 @@ ext {
             sprinBootDataRedis              : "org.springframework.boot:spring-boot-starter-data-redis:${versions.springBoot}",
             sprinBootStarterSecurity        : "org.springframework.boot:spring-boot-starter-security:${versions.springBoot}",
             sprinBootStarterOAuth2          : "org.springframework.boot:spring-boot-starter-oauth2-resource-server:${versions.springBoot}",
+            sprinBootStarterValidation      : "org.springframework.boot:spring-boot-starter-validation:${versions.springBoot}",
             springCloudStarterOpenFeigh     : "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.springCloud}",
             springCloudConfig               : "org.springframework.cloud:spring-cloud-starter-config:${versions.springCloud}",
             springCloudConfigServer         : "org.springframework.cloud:spring-cloud-config-server:${versions.springCloud}",
