@@ -9,6 +9,8 @@ import org.project.entity.Auth;
 import org.project.service.AuthService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -33,6 +35,13 @@ public class AuthController {
         return new ResponseEntity<>(authService.register(dto), HttpStatus.CREATED);
     }
 
+    @PatchMapping(ACTIVATE)
+    public ResponseEntity<Auth> activateUser(@PathVariable String token) {
+       authService.activate(token);
+       return null;
+    }
+
+
     @PostMapping(REGISTERED)
     public ResponseEntity<Boolean> hasRegistered(@RequestBody LoginRequestDTO dto) {
         return ResponseEntity.ok(authService.hasRegistered(dto));
@@ -44,8 +53,8 @@ public class AuthController {
         return (CsrfToken) request.getAttribute("_csrf");
     }
 
-    @GetMapping("/get-all")
-    public List<Auth> getAll() {
-        return authService.getAll();
+    @GetMapping(GETALL)
+    public Page<Auth> getAll(Pageable pageable) {
+        return authService.getAll(pageable);
     }
 }

@@ -6,5 +6,8 @@
   "email": "E-mail",
   "passwordMismatch": "Passwords mismatch!",
   "generalError": "Unexpected error ocured. try again please",
-  "createSuccesful": "Created succesfully"
+  "createSuccesful": "Created succesfully",
+  "about" : "About",
+  "appName": "Starbucks",
+  "activationSuccessful": "Activation Successful"
 }

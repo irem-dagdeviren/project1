@@ -29,7 +29,7 @@ public class Auth {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    private Boolean active;
+    private Boolean active = false;
 
     private String activationToken;
 

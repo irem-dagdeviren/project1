@@ -2,6 +2,7 @@ package org.project.error;
 
 import lombok.RequiredArgsConstructor;
 import org.project.exception.ActivationException;
+import org.project.exception.InvalidTokenException;
 import org.project.exception.NotUniqueEmailException;
 import org.project.shared.Messages;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -47,6 +48,14 @@ public class GlobalExceptionHandler {
         apiError.setPath(AUTHSERVICE);
         apiError.setMessage(ex.getMessage());
         apiError.setStatus(ex.getStatus());
-        return ResponseEntity.status(502).body(apiError);
+        return ResponseEntity.status(ex.getStatus()).body(apiError);
+    }
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ApiError> handleInvalidActivationException (InvalidTokenException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath(AUTHSERVICE);
+        apiError.setMessage(ex.getMessage());
+        apiError.setStatus(ex.getStatus());
+        return ResponseEntity.status(ex.getStatus()).body(apiError);
     }
 }

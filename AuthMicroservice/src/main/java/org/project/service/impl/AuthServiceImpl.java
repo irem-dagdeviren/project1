@@ -7,17 +7,22 @@ import org.project.dto.request.RegisterRequestDTO;
 import org.project.email.EmailService;
 import org.project.entity.Auth;
 import org.project.exception.ActivationException;
+import org.project.exception.InvalidTokenException;
 import org.project.exception.NotUniqueEmailException;
 import org.project.manager.UserProfileManager;
 import org.project.repository.AuthRepository;
 import org.project.service.AuthService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -58,7 +63,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public List<Auth> getAll() {
-        return authRepository.findAll();
+    public Page<Auth> getAll(Pageable page) {
+        return authRepository.findAll(page);
+    }
+
+    @Override
+    public void activate(String token) {
+        Auth inDB = authRepository.findByActivationToken(token);
+        if(Objects.isNull(inDB)){
+            throw new InvalidTokenException();
+        }
+        inDB.setActive(true);
+        inDB.setActivationToken(null);
+        authRepository.saveAndFlush(inDB);
+
     }
 }

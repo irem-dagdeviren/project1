@@ -1,10 +1,10 @@
 import {useEffect, useMemo, useState} from "react";
-import axios from "axios";
 import {signUp} from "./api.js";
 import {Input} from "./component/input.jsx";
 import {PasswordInput} from "./component/passwordInput.jsx";
 import {useTranslation} from "react-i18next";
-import {LanguageSelector} from "../../shared/components/LanguageSelector.jsx";
+import {Alert} from "@/shared/components/Alert";
+import {Spinner} from "@/shared/components/Spinner";
 
 export function SignUp() {
 
@@ -116,18 +116,16 @@ export function SignUp() {
                                        ype = "password" />
 
                         {/* Error / Success Messages */}
-                        {generalErrors && <div className="alert alert-danger text-center">{generalErrors}</div>}
-                        {successMessage && <div className="alert alert-success text-center">{successMessage}</div>}
-
+                        {generalErrors && <Alert styleType = "danger"> {generalErrors } </Alert>}
+                        {successMessage && <Alert styleType = "success"> {successMessage} </Alert> }
                         <div className="text-center mt-4">
                             <button className="btn btn-primary w-100 py-2 fw-semibold">
-                                {apiProgress && <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>}
+                                    {apiProgress && <Spinner sm={true}></Spinner>}
                                 DONE
                             </button>
                         </div>
                     </form>
                 </div>
-                <LanguageSelector/>
             </div>
         </div>
     )

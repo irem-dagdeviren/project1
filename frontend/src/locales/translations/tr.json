@@ -6,7 +6,12 @@
   "email": "E-posta",
   "passwordMismatch": "Şifreler eşleşmiyor",
   "generalError": "Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin",
-  "createSuccesful": "Başarıyla oluşturuldu"
+  "createSuccesful": "Başarıyla oluşturuldu",
+  "about": "Hakkında",
+  "appName": "Starbucks",
+  "activationSuccessful": "Aktivasyon Başarılı"
+
+
 
 
 }
