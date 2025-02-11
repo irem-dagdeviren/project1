@@ -1,6 +1,7 @@
 package org.project.error;
 
 import lombok.RequiredArgsConstructor;
+import org.project.exception.ActivationException;
 import org.project.exception.NotUniqueEmailException;
 import org.project.shared.Messages;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -38,5 +39,14 @@ public class GlobalExceptionHandler {
         apiError.setStatus(ex.getStatus());
         apiError.setValidationErrors(ex.getValidationErrors());
         return ResponseEntity.badRequest().body(apiError);
+    }
+
+    @ExceptionHandler(ActivationException.class)
+    public ResponseEntity<ApiError> handleActivationException (ActivationException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setPath(AUTHSERVICE);
+        apiError.setMessage(ex.getMessage());
+        apiError.setStatus(ex.getStatus());
+        return ResponseEntity.status(502).body(apiError);
     }
 }

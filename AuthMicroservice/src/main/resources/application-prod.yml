@@ -1,0 +1,7 @@
+spring:
+  config:
+    activate:
+      on-profile: production
+custom:
+  client:
+    host: http://localhost:prod/activation

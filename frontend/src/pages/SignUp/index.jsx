@@ -60,15 +60,20 @@ export function SignUp() {
     const onSubmit = async (event) => {
         event.preventDefault()
         setApiProgress(true)
+        setGeneralErrors(null)
+        setSuccessMessage(null)
         try {
             const response = await signUp({
                 username, email, password
             })
             setSuccessMessage(t('createSuccesful'))
         } catch ( axiosError ){
-            console.log(axiosError)
-            if(axiosError.response?.data && axiosError.response.data.status === 400) {
-                setErrors(axiosError.response.data.validationErrors)
+            if(axiosError.response?.data){
+                if(axiosError.response.data.status === 400){
+                    setErrors(axiosError.response.data.validationErrors)
+                }else{
+                    setGeneralErrors(axiosError.response.data.message)
+                }
             }
             else{
                 setGeneralErrors(t('generalError'))
