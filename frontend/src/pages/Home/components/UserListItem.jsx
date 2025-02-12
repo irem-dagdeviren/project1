@@ -9,7 +9,7 @@ export function UserListItem({ user }) {
       style={{ textDecoration: "none" }}
     >
       <ProfileImage width={30} image={user.image}/>
-      <span className="ms-2">{user.userName}</span>
+      <span className="ms-2">{user.username}</span>
     </Link>
   );
 }

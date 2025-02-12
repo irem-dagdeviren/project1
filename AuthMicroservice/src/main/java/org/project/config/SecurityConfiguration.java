@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(LOGIN).permitAll()
                                 .requestMatchers("/dev/v1/auth/**").permitAll()
                                 .requestMatchers("/dev/v1/user/**").permitAll()
+                                .requestMatchers("/dev/v1/user-profile/**").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**", "/v2/api-docs*/**").permitAll()
                                 .anyRequest().authenticated()
                 )

@@ -7,7 +7,18 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/dev/v1/auth' : 'http://localhost:9099'
+      '/dev/v1/auth': {
+        target: 'http://localhost:9099',
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      },
+      '/dev/v1/user-profile': {
+        target: 'http://localhost:9091',
+        changeOrigin: true,
+        secure: false,
+        ws: true
+      }
     }
   },
   resolve: {

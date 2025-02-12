@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
 export function Activation(){
 
     const { token} = useParams()
-    const [apiProgress, setApiProgress] = useState(true)
+    const [apiProgress, setApiProgress] = useState()
     const [errors, setErrors] = useState({})
     const [successMessage, setSuccessMessage] = useState()
     const [generalErrors, setGeneralErrors] = useState()

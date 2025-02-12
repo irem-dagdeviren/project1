@@ -3,8 +3,7 @@ package org.project.manager;
 import org.project.dto.request.CreateUserRequestDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import static org.project.config.RestApis.*;
 
@@ -13,4 +12,7 @@ public interface UserProfileManager {
 
     @PostMapping(CREATE_USER)
     ResponseEntity<Boolean> createUser(@RequestBody CreateUserRequestDTO dto);
+
+    @PutMapping(ACTIVATE_USER)
+    ResponseEntity<Boolean> activateUser(@PathVariable Long token);
 }

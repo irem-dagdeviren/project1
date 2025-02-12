@@ -35,7 +35,7 @@ public class AuthController {
         return new ResponseEntity<>(authService.register(dto), HttpStatus.CREATED);
     }
 
-    @PatchMapping(ACTIVATE)
+    @PutMapping(ACTIVATE)
     public ResponseEntity<Auth> activateUser(@PathVariable String token) {
        authService.activate(token);
        return null;
@@ -43,7 +43,7 @@ public class AuthController {
 
 
     @PostMapping(REGISTERED)
-    public ResponseEntity<Boolean> hasRegistered(@RequestBody LoginRequestDTO dto) {
+    public ResponseEntity<Boolean> hasRegistered(@RequestParam LoginRequestDTO dto) {
         return ResponseEntity.ok(authService.hasRegistered(dto));
 
     }

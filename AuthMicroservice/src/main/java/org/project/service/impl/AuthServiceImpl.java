@@ -75,7 +75,8 @@ public class AuthServiceImpl implements AuthService {
         }
         inDB.setActive(true);
         inDB.setActivationToken(null);
-        authRepository.saveAndFlush(inDB);
+        userProfileManager.activateUser(inDB.getId());
+        authRepository.save(inDB);
 
     }
 }
