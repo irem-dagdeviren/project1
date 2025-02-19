@@ -1,0 +1,55 @@
+package org.project.error;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.project.exception.ActivationException;
+import org.project.exception.AuthenticationException;
+import org.project.exception.InvalidTokenException;
+import org.project.exception.NotUniqueEmailException;
+import org.project.shared.Messages;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
+@Component
+@RestControllerAdvice
+public class ExceptionHandler {
+
+    @org.springframework.web.bind.annotation.ExceptionHandler({
+            MethodArgumentNotValidException.class,
+            NotUniqueEmailException.class,
+            InvalidTokenException.class,
+            AuthenticationException.class,
+            ActivationException.class,
+    })
+    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(Exception ex, HttpServletRequest request) {
+        ApiError apiError = new ApiError();
+        apiError.setPath(request.getRequestURI());
+        if(ex instanceof MethodArgumentNotValidException methodArgumentNotValidEx) {
+            apiError.setMessage(Messages.getMessageForLocale("validation.exception.error", LocaleContextHolder.getLocale()));
+            apiError.setStatus(methodArgumentNotValidEx.getStatusCode().value());
+            apiError.setValidationErrors(methodArgumentNotValidEx.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage, (existing, replacing) -> existing)));
+        }
+        if(ex instanceof InvalidTokenException invalidTokenEx) {
+            apiError.setStatus(invalidTokenEx.getStatus());
+        }
+        if(ex instanceof AuthenticationException authenticationEx) {
+            apiError.setStatus(authenticationEx.getStatus());
+        }
+        if(ex instanceof ActivationException activationEx) {
+            apiError.setStatus(activationEx.getStatus());
+        }
+        if(ex instanceof NotUniqueEmailException notUniqueEmailEx) {
+            apiError.setStatus(notUniqueEmailEx.getStatus());
+            apiError.setValidationErrors(notUniqueEmailEx.getValidationErrors());
+        }
+        apiError.setMessage(ex.getMessage());
+        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+    }
+}

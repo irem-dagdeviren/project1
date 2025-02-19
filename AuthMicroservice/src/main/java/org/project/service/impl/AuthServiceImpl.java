@@ -1,27 +1,30 @@
 package org.project.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.project.dto.AuthDTO;
 import org.project.dto.request.CreateUserRequestDTO;
 import org.project.dto.request.LoginRequestDTO;
 import org.project.dto.request.RegisterRequestDTO;
+import org.project.dto.response.LoginResponse;
 import org.project.email.EmailService;
 import org.project.entity.Auth;
+import org.project.entity.Token;
 import org.project.exception.ActivationException;
+import org.project.exception.AuthenticationException;
 import org.project.exception.InvalidTokenException;
 import org.project.exception.NotUniqueEmailException;
 import org.project.manager.UserProfileManager;
 import org.project.repository.AuthRepository;
 import org.project.service.AuthService;
+import org.project.service.TokenService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -32,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserProfileManager userProfileManager;
     private final EmailService emailService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
+    private final TokenService tokenService;
 
     @Transactional(rollbackFor = MailException.class)
     public Auth register(RegisterRequestDTO dto) {
@@ -79,4 +83,22 @@ public class AuthServiceImpl implements AuthService {
         authRepository.save(inDB);
 
     }
+
+    @Override
+    public LoginResponse authenticate(LoginRequestDTO dto) {
+        Auth auth = authRepository.findByUserName(dto.getUserName());
+        if(!bCryptPasswordEncoder.matches(dto.getPassword(), auth.getPassword())){
+            throw new AuthenticationException();
+        }
+        Token token = tokenService.createToken(auth, dto);
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(token);
+        loginResponse.setUser(new AuthDTO(auth));
+        return loginResponse;
+    }
+
+    @Override
+    public void logout(String tokenWithPrefix) {
+            tokenService.logout(tokenWithPrefix);
+        }
 }

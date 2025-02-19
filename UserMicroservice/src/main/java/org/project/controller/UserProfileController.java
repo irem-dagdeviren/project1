@@ -1,7 +1,9 @@
 package org.project.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.project.dto.request.CreateUserRequestDTO;
+import org.project.dto.request.UpdateUser;
 import org.project.dto.response.UserDTO;
 import org.project.service.UserProfileService;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,22 @@ public class UserProfileController {
     @GetMapping(GET_ALL)
     public Page<UserDTO> getAllUsers(Pageable pageable) {
         return userProfileService.getAllUsers(pageable);
+    }
+
+    @GetMapping(BY_ID)
+    UserDTO getUserById(@PathVariable String id){
+        return new UserDTO(userProfileService.getUser(id));
+    }
+
+    @DeleteMapping(BY_ID)
+    ResponseEntity<Boolean> deleteUserById(@PathVariable String id){
+        userProfileService.deleteUser(id);
+        return ResponseEntity.ok(true);
+    }
+
+    @PutMapping(BY_ID)
+    UserDTO updateUser(@PathVariable String id, @Valid @RequestBody UpdateUser updateUser){
+        return new UserDTO(userProfileService.updateUser(id, updateUser));
     }
 
     @GetMapping(UPPER_NAME)

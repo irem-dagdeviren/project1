@@ -10,9 +10,11 @@ public class RestApis {
     public static final String AUTHSERVICE = DEVELOPER + VERSIONS + "/auth";
 
     public static final String REGISTER = "/register";
+    public static final String AUTHORIZE = "/authorize";
     public static final String ACTIVATE = "/register/{token}/activate";
     public static final String REGISTERED = "/hasRegistered";
     public static final String LOGIN = "/login";
+    public static final String LOGOUT = "/logout";
 
     public static final String CREATE_USER = "/create-user";
     public static final String ACTIVATE_USER = "/user-activate/{token}";

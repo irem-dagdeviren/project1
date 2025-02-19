@@ -1,10 +1,11 @@
 import {useEffect, useMemo, useState} from "react";
 import {signUp} from "./api.js";
-import {Input} from "./component/input.jsx";
-import {PasswordInput} from "./component/passwordInput.jsx";
 import {useTranslation} from "react-i18next";
 import {Alert} from "@/shared/components/Alert";
 import {Spinner} from "@/shared/components/Spinner";
+import {Input} from "@/shared/components/Input.jsx";
+import {PasswordInput} from "@/shared/components/passwordInput.jsx";
+import {Button} from "@/shared/components/Button.jsx";
 
 export function SignUp() {
 
@@ -112,17 +113,19 @@ export function SignUp() {
                                        type = "password"  />
                         <PasswordInput id="repassword"
                                        label={t('repassword')}
-                                       error={passwordRepeatError} onChange={(event) => setRepassword(event.target.value)} t
-                                       ype = "password" />
+                                       error={passwordRepeatError} onChange={(event) => setRepassword(event.target.value)}
+                                       type = "password" />
 
                         {/* Error / Success Messages */}
                         {generalErrors && <Alert styleType = "danger"> {generalErrors } </Alert>}
                         {successMessage && <Alert styleType = "success"> {successMessage} </Alert> }
                         <div className="text-center mt-4">
-                            <button className="btn btn-primary w-100 py-2 fw-semibold">
-                                    {apiProgress && <Spinner sm={true}></Spinner>}
-                                DONE
-                            </button>
+                            <Button
+                                disabled={!password || password !== repassword}
+                                apiProgress={apiProgress}
+                            >
+                                {t("signUp")}
+                            </Button>
                         </div>
                     </form>
                 </div>

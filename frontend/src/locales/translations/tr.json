@@ -7,9 +7,14 @@
   "passwordMismatch": "Şifreler eşleşmiyor",
   "generalError": "Bilinmeyen bir hata oluştu. Lütfen tekrar deneyin",
   "createSuccesful": "Başarıyla oluşturuldu",
-  "about": "Hakkında",
+  "homepage" : "Ana Sayfa",
   "appName": "Starbucks",
-  "activationSuccessful": "Aktivasyon Başarılı"
+  "activationSuccessful": "Aktivasyon Başarılı",
+  "login" : "Giriş Yap",
+  "profile" : "Profilim",
+  "logout" : "Çıkış Yap"
+
+
 
 
 

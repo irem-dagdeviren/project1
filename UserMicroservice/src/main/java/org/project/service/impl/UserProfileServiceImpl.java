@@ -3,7 +3,9 @@ package org.project.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.project.document.UserProfile;
 import org.project.dto.request.CreateUserRequestDTO;
+import org.project.dto.request.UpdateUser;
 import org.project.dto.response.UserDTO;
+import org.project.exception.NotFoundException;
 import org.project.repository.UserProfileRepository;
 import org.project.service.UserProfileService;
 import org.springframework.cache.CacheManager;
@@ -46,9 +48,31 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public void activateUser(Long authId) {
-        UserProfile userProfile = userProfileRepository.findByAuthId(authId);
+        UserProfile userProfile = userProfileRepository.findByAuthId(authId).orElseThrow( () -> new NotFoundException(authId.toString()));
         userProfile.setActive(true);
         userProfileRepository.save(userProfile);
+    }
+
+    @Override
+    public UserProfile getUser(String id) {
+        return userProfileRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+    @Override
+    public UserProfile getUserByAuthId(Long id) {
+        return userProfileRepository.findByAuthId(id).orElseThrow(() -> new NotFoundException(id.toString()));
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        UserProfile inDB = getUser(id);
+        userProfileRepository.delete(inDB);
+    }
+
+    @Override
+    public UserProfile updateUser(String id, UpdateUser updateUser) {
+        UserProfile inDB = getUser(id);
+        inDB.setUsername(updateUser.getUsername());
+        return userProfileRepository.save(inDB);
     }
 
     public void clearCache() {

@@ -7,7 +7,11 @@
   "passwordMismatch": "Passwords mismatch!",
   "generalError": "Unexpected error ocured. try again please",
   "createSuccesful": "Created succesfully",
-  "about" : "About",
+  "homepage" : "Home Page",
   "appName": "Starbucks",
-  "activationSuccessful": "Activation Successful"
+  "activationSuccessful": "Activation Successful",
+  "login" : "login",
+  "profile" : "My Profile",
+  "logout" : "Logout"
+
 }

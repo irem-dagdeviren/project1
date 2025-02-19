@@ -16,6 +16,7 @@ public class UserDTO {
     private String phone;
     private Boolean active;
     private String id;
+    private Long authId;
 
     public UserDTO(UserProfile userProfile) {
         setId(userProfile.getId());
@@ -23,5 +24,6 @@ public class UserDTO {
         setEmail(userProfile.getEmail());
         setPhone(userProfile.getPhone());
         setActive(userProfile.getActive());
+        setAuthId(userProfile.getAuthId());
     }
 }
