@@ -14,6 +14,7 @@ public class RestApis {
     public static final String ACTIVATE = "/register/{token}/activate";
     public static final String REGISTERED = "/hasRegistered";
     public static final String LOGIN = "/login";
+    public static final String VERIFY_TOKEN = "/verifyToken";
     public static final String LOGOUT = "/logout";
 
     public static final String CREATE_USER = "/create-user";

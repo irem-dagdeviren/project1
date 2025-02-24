@@ -55,7 +55,7 @@ export function Login() {
             setGeneralError(axiosError.response.data.message);
           }
         } else {
-          setGeneralError(t("genericError"));
+          setGeneralError(t(axiosError.message));
         }
     } finally {
         setApiProgress(false);

@@ -21,6 +21,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.MailException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,6 +88,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse authenticate(LoginRequestDTO dto) {
         Auth auth = authRepository.findByUserName(dto.getUserName());
+        if(Objects.isNull(auth)){
+            throw new UsernameNotFoundException("Invalid username or password");
+        }
         if(!bCryptPasswordEncoder.matches(dto.getPassword(), auth.getPassword())){
             throw new AuthenticationException();
         }

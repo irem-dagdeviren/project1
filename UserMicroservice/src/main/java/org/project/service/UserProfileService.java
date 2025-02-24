@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface UserProfileService {
     void createUser(CreateUserRequestDTO dto);
 
-    Page<UserDTO> getAllUsers(Pageable pageable);
+    Page<UserDTO> getAllUsers(Pageable pageable, String id);
 
     String getUpperName(String name);
 

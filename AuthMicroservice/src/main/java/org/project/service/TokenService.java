@@ -7,6 +7,6 @@ import org.project.entity.Token;
 public interface TokenService {
 
     public Token createToken(Auth auth, LoginRequestDTO creds);
-    public Auth verifyToken (String AuthHeader);
+    public Long verifyToken (String AuthHeader);
     void logout(String tokenWithPrefix);
 }

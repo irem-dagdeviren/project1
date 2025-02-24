@@ -8,6 +8,8 @@ import org.project.dto.request.RegisterRequestDTO;
 import org.project.dto.response.LoginResponse;
 import org.project.entity.Auth;
 import org.project.service.AuthService;
+import org.project.service.TokenService;
+import org.project.service.impl.BasicAuthTokenServiceImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ import static org.project.config.RestApis.*;
 public class AuthController {
     private final AuthService authService;
     private final MessageSource messageSource;
+    private final TokenService tokenService;
+    private final BasicAuthTokenServiceImpl basicAuthTokenService;
 
     @PostMapping(REGISTER)
     public ResponseEntity<Auth> register(@Valid @RequestBody RegisterRequestDTO dto) {
@@ -44,6 +48,10 @@ public class AuthController {
 
     }
 
+    @GetMapping(VERIFY_TOKEN)
+    public Long verifyToken(@RequestHeader(name="Authorization", required = false) String token) {
+        return basicAuthTokenService.verifyToken(token);
+    }
 
     @PostMapping(LOGOUT)
     ResponseEntity<?> handleLogout(@RequestHeader(name="Authorization", required = false) String authorizationHeader, @CookieValue(name="hoax-token", required = false) String cookieValue){

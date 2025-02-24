@@ -45,6 +45,9 @@ public class SecurityConfiguration {
                         authorizeRequests
                                 .requestMatchers(LOGIN).permitAll()
                                 .requestMatchers("/dev/v1/auth/**").permitAll()
+                                .requestMatchers("/dev/v1/auth/authorize").permitAll()
+                                .requestMatchers("/dev/v1/auth/verifyToken").permitAll()
+                                .requestMatchers("/dev/v1/user-profile/get-all").permitAll()
                                 .requestMatchers("/dev/v1/user/**").permitAll()
                                 .requestMatchers("/dev/v1/user-profile/**").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**", "/v2/api-docs*/**").permitAll()

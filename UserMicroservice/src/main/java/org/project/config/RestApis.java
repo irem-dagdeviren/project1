@@ -7,6 +7,9 @@ public class RestApis {
     public static final String VERSIONS = "/v1";
 
     public static final String USERPROFILE = DEVELOPER + VERSIONS + "/user-profile";
+    public static final String AUTH = DEVELOPER + VERSIONS + "/auth";
+    public static final String VERIFY_TOKEN = "/verifyToken";
+    public static final String BASE_URL = "http://localhost:9099";
 
     public static final String CREATE_USER = "/create-user";
     public static final String GET_ALL = "/get-all";

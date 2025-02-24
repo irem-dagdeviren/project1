@@ -6,6 +6,7 @@ import org.project.dto.request.CreateUserRequestDTO;
 import org.project.dto.request.UpdateUser;
 import org.project.dto.response.UserDTO;
 import org.project.exception.NotFoundException;
+import org.project.manager.AuthManager;
 import org.project.repository.UserProfileRepository;
 import org.project.service.UserProfileService;
 import org.springframework.cache.CacheManager;
@@ -21,6 +22,7 @@ import java.util.Objects;
 public class UserProfileServiceImpl implements UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final CacheManager cacheManager;
+    private final AuthManager authManager;
 
     @Override
     public void createUser(CreateUserRequestDTO dto) {
@@ -32,8 +34,10 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public Page<UserDTO> getAllUsers(Pageable pageable) {
-        return userProfileRepository.findAll(pageable).map(UserDTO::new);
+    public Page<UserDTO> getAllUsers(Pageable pageable, String authHeader) {
+        Long id = authManager.verifyToken(authHeader);
+        Page<UserProfile> users =  userProfileRepository.findByAuthIdNot(pageable, id);
+        return users.map(UserDTO::new);
     }
 
     @Cacheable("upper-case")

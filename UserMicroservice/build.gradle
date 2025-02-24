@@ -4,4 +4,5 @@ dependencies {
     annotationProcessor libs.lombok
     implementation libs.springCloudConfigClient
     implementation libs.sprinBootDataRedis
+    implementation libs.springCloudStarterOpenFeigh
 }
