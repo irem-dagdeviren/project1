@@ -1,11 +1,15 @@
 package org.project.service.impl;
 
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.project.document.UserProfile;
 import org.project.dto.request.CreateUserRequestDTO;
 import org.project.dto.request.UpdateUser;
 import org.project.dto.response.UserDTO;
+import org.project.exception.AuthorizationException;
+import org.project.exception.FeignAuthenticationException;
 import org.project.exception.NotFoundException;
+import org.project.exception.ServiceUnavailableException;
 import org.project.manager.AuthManager;
 import org.project.repository.UserProfileRepository;
 import org.project.service.UserProfileService;
@@ -73,10 +77,31 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfile updateUser(String id, UpdateUser updateUser) {
-        UserProfile inDB = getUser(id);
-        inDB.setUsername(updateUser.getUsername());
-        return userProfileRepository.save(inDB);
+    public UserProfile updateUser(String id, UpdateUser updateUser, String authHeader) {
+        Long loggedInUser = null;
+        try{
+            loggedInUser = authManager.verifyToken(authHeader);
+        }catch (FeignException e) {
+            if (e.status() == 401) {
+                throw new FeignAuthenticationException();
+            } else {
+                throw new ServiceUnavailableException();
+            }
+        }
+        if(Objects.isNull(loggedInUser)) {
+            throw new NotFoundException(authHeader);
+        }
+        UserProfile inDB = getUserByAuthId(Long.parseLong(id));
+        if(loggedInUser.equals(inDB.getAuthId())) {
+            inDB.setUsername(updateUser.getUsername());
+            inDB.setEmail(updateUser.getEmail());
+            inDB.setPhone(updateUser.getPhone());
+            userProfileRepository.save(inDB);
+            authManager.updateUser(inDB.getAuthId(),updateUser.getEmail(), updateUser.getUsername(), authHeader);
+            return inDB;
+
+        }
+        throw new AuthorizationException();
     }
 
     public void clearCache() {

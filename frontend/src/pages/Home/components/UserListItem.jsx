@@ -5,7 +5,7 @@ export function UserListItem({ user }) {
   return (
     <Link
       className="list-group-item list-group-item-action"
-      to={`/user/${user.id}`}
+      to={`/user/${user.authId}`}
       style={{ textDecoration: "none" }}
     >
       <ProfileImage width={30} image={user.image}/>

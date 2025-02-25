@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.project.validation.UniqueEmail;
+import org.project.validation.UniqueUsername;
 
 @Builder
 @AllArgsConstructor
@@ -14,6 +15,7 @@ import org.project.validation.UniqueEmail;
 public class RegisterRequestDTO {
     @NotBlank(message = "{auth.username.notblank}")
     @NotNull
+    @UniqueUsername
     String username;
 
     @NotBlank(message = "{auth.password.notblank}")

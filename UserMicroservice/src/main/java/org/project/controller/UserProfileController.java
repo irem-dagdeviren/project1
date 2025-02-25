@@ -51,7 +51,7 @@ public class UserProfileController {
 
     @GetMapping(BY_ID)
     UserDTO getUserById(@PathVariable String id){
-        return new UserDTO(userProfileService.getUser(id));
+        return new UserDTO(userProfileService.getUserByAuthId(Long.valueOf(id)));
     }
 
     @DeleteMapping(BY_ID)
@@ -61,8 +61,8 @@ public class UserProfileController {
     }
 
     @PutMapping(BY_ID)
-    UserDTO updateUser(@PathVariable String id, @Valid @RequestBody UpdateUser updateUser){
-        return new UserDTO(userProfileService.updateUser(id, updateUser));
+    UserDTO updateUser(@PathVariable String id, @Valid @RequestBody UpdateUser updateUser, @RequestHeader(name = "Authorization", required = false) String authHeader) {
+        return new UserDTO(userProfileService.updateUser(id, updateUser,authHeader));
     }
 
     @GetMapping(UPPER_NAME)

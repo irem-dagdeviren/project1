@@ -22,5 +22,5 @@ public interface UserProfileService {
 
     void deleteUser(String id);
 
-    UserProfile updateUser(String id, UpdateUser updateUser);
+    UserProfile updateUser(String id, UpdateUser updateUser,String authHeader);
 }

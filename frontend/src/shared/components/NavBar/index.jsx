@@ -3,6 +3,7 @@ import logo from "@/assets/logo.png";
 import {useTranslation} from "react-i18next";
 import {useAuthDispatch, useAuthState} from "@/shared/state/context.jsx";
 import {logout} from "@/shared/components/NavBar/api.js";
+import {ProfileImage} from "@/shared/components/ProfileImage.jsx";
 
 export function Index(){
     const { t } = useTranslation();
@@ -27,11 +28,6 @@ export function Index(){
                     {t('appName')}
                 </Link>
                 <ul className="navbar-nav">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/">
-                            {authState.id}
-                        </Link>
-                    </li>
                     {authState.id === 0 && (<>
                         <li className="nav-item">
                             <Link className="nav-link" to="/signup">
@@ -53,8 +49,9 @@ export function Index(){
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/user/${authState.id}">
-                                {t('profile')}
+                            <Link className="nav-link" to={`/user/${authState.id}`}>
+                                <ProfileImage width={30} />
+                                <span className="ms-2">{authState.username}</span>
                             </Link>
                         </li>
                         <li className="nav-item">

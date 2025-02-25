@@ -26,7 +26,15 @@ const authReducer = (authState, action) => {
       return {
         ...authState,
         username: action.data.username,
-        image: action.data.image
+        email: action.data.email,
+        phone: action.data.phone
+      }
+    case "fill-profile":
+      return {
+        ...authState,
+        username: action.data.username,
+        email: action.data.email,
+        phone: action.data.phone
       }
 
     default:

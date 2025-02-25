@@ -9,10 +9,7 @@ import org.project.dto.response.LoginResponse;
 import org.project.email.EmailService;
 import org.project.entity.Auth;
 import org.project.entity.Token;
-import org.project.exception.ActivationException;
-import org.project.exception.AuthenticationException;
-import org.project.exception.InvalidTokenException;
-import org.project.exception.NotUniqueEmailException;
+import org.project.exception.*;
 import org.project.manager.UserProfileManager;
 import org.project.repository.AuthRepository;
 import org.project.service.AuthService;
@@ -105,4 +102,21 @@ public class AuthServiceImpl implements AuthService {
     public void logout(String tokenWithPrefix) {
             tokenService.logout(tokenWithPrefix);
         }
+
+    @Override
+    public Auth updateUser(Long id, String email,String username, String authHeader) {
+        Long loggedInUser = tokenService.verifyToken(authHeader);
+        if(Objects.isNull(loggedInUser)) {
+            throw new NotFoundException(authHeader);
+        }
+        Auth inDB = authRepository.findById(id).orElseThrow();
+        if(loggedInUser.equals(inDB.getId())) {
+            inDB.setUserName(username);
+            inDB.setEmail(email);
+            authRepository.save(inDB);
+            return inDB;
+
+        }
+        throw new AuthorizationException();
+    }
 }

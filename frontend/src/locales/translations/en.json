@@ -1,6 +1,7 @@
 {
   "signUp": "Sign Up",
   "username": "Username",
+  "phone": "Phone",
   "password": "Password",
   "repassword": "Password Repeat",
   "email": "E-mail",
@@ -12,6 +13,8 @@
   "activationSuccessful": "Activation Successful",
   "login" : "login",
   "profile" : "My Profile",
-  "logout" : "Logout"
+  "logout" : "Logout",
+  "save" : "Save",
+  "cancel" : "Cancel"
 
 }

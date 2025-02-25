@@ -16,4 +16,5 @@ public interface AuthService {
     void activate(String token);
     LoginResponse authenticate(@Valid LoginRequestDTO dto);
     void logout(String tokenWithPrefix);
+    Auth updateUser(Long id, String email, String username, String authHeader);
 }

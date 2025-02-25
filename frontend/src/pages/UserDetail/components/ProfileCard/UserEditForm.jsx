@@ -6,99 +6,91 @@ import { Input } from "@/shared/components/Input";
 import { Alert } from "@/shared/components/Alert";
 import { Button } from "@/shared/components/Button";
 
-export function UserEditForm({ setEditMode, setTempImage }) {
-  const authState = useAuthState();
-  const { t } = useTranslation();
-  const [newUsername, setNewUsername] = useState(authState.username);
-  const [apiProgress, setApiProgress] = useState(false);
+export function UserEditForm({ setEditMode }) {
+  const authState = useAuthState()
+  const [newUsername ,setNewUsername] = useState(authState.username)
+  const [newMail ,setNewMail] = useState(authState.email)
+  const [newPhone ,setNewPhone] = useState(authState.phone)
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
+  const [apiProgress ,setApiProgress] = useState(false)
+  const { t } = useTranslation()
   const dispatch = useAuthDispatch();
-  const [newImage, setNewImage] = useState();
 
   const onChangeUsername = (event) => {
-    setNewUsername(event.target.value);
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        username: undefined,
-      };
-    });
-  };
-
-  const onClickCancel = () => {
-    setEditMode(false);
-    setNewUsername(authState.username);
-    setNewImage();
-    setTempImage();
-  };
-
-  const onSelectImage = (event) => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        image: undefined,
-      };
-    });
-    if(event.target.files.length < 1) return;
-    const file = event.target.files[0]
-    const fileReader = new FileReader();
-    fileReader.onloadend = () => {
-      const data = fileReader.result
-      setNewImage(data);
-      setTempImage(data);
-    }
-    fileReader.readAsDataURL(file);
+    setNewUsername(event.target.value)
   }
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    setApiProgress(true);
-    setErrors({});
-    setGeneralError();
-    try {
-      const { data } = await updateUser(authState.id, { username: newUsername, image: newImage });
-      dispatch({
-        type: "user-update-success",
-        data: { username: data.username, image: data.image },
-      });
-      setEditMode(false);
-    } catch (axiosError) {
+  const onChangeEmail = (event) => {
+    setNewMail(event.target.value)
+  }
+  const onChangePhone = (event) => {
+    setNewPhone(event.target.value)
+  }
+  const onClickSave = async (event) => {
+    event.preventDefault()
+    setErrors({})
+    setGeneralError()
+    setApiProgress(true)
+    try{
+      await updateUser(authState.id, {username:newUsername  , email:newMail , phone:newPhone})
+      dispatch({type: 'user-update-success', data: {username : newUsername, email: newMail , phone:newPhone}})
+      setEditMode(false)
+    }
+    catch (axiosError) {
+      console.error("Axios Error:", axiosError); // Log the entire error object
       if (axiosError.response?.data) {
         if (axiosError.response.data.status === 400) {
           setErrors(axiosError.response.data.validationErrors);
         } else {
-          setGeneralError(axiosError.response.data.message);
+          setGeneralError(axiosError.response.data.messsage);
         }
       } else {
-        setGeneralError(t("genericError"));
+        setGeneralError(t(axiosError.message));
       }
-    } finally {
-      setApiProgress(false);
+      console.log(axiosError.response.data)
+    }finally {
+      setApiProgress(false)
     }
-  };
+
+  }
+  const onClickCancel = async () => {
+    setEditMode(false)
+    setNewUsername(authState.username)
+    setNewMail(authState.email)
+    setNewPhone(authState.phone)
+  }
+
   return (
-    <form onSubmit={onSubmit}>
-      <Input
-        label={t("username")}
-        defaultValue={authState.username}
-        onChange={onChangeUsername}
-        error={errors.username}
-      />
-      <Input
-        label="Profile Image"
-        type="file"
-        onChange={onSelectImage}
-        error={errors.image}
-      />
-      {generalError && <Alert styleType="danger">{generalError}</Alert>}
-      <Button apiProgress={apiProgress} type="submit">
-        Save
-      </Button>
-      <div className="d-inline m-1"></div>
-      <Button styleType="outline-secondary" onClick={onClickCancel} type="button">
-        Cancel
-      </Button>
+    <form onSubmit={onClickSave}>
+      <>
+        <Input
+            label = {t('username')}
+            defaultValue = {authState.username}
+            onChange = {onChangeUsername}
+            error={errors.username} />
+        <Input
+            label = {t('email')}
+            defaultValue = {authState.email}
+            onChange = {onChangeEmail}
+            error={errors.email} />
+        <Input
+            label = {t('phone')}
+            defaultValue = {authState.phone}
+            onChange = {onChangePhone}
+            error={errors.phone} />
+        {generalError && <Alert styleTyp
+                                e="danger">{generalError}</Alert>}
+        <Button
+            apiProgress={apiProgress}
+            type="submit"> {t('save')}
+        </Button>
+        <div className="d-inline m-1" />
+        <Button
+            styleType= "outline-secondary"
+            onClick={onClickCancel}
+            type="button">
+          {t('cancel')}  </Button>
+      </>
     </form>
   );
 }

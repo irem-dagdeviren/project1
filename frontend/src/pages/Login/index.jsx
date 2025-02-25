@@ -7,6 +7,7 @@ import {login} from "./api";
 import {useAuthDispatch} from "@/shared/state/context";
 import {Link, useNavigate} from "react-router-dom";
 import {PasswordInput} from "@/shared/components/passwordInput.jsx";
+import {getUser} from "@/pages/UserDetail/api.js";
 
 export function Login() {
   const [email, setEmail] = useState();
@@ -46,6 +47,8 @@ export function Login() {
     try {
         const response = await login({ userName, password })
         dispatch({type: 'login-success', data: response.data})
+        const profile = await getUser(response.data.user.id)
+        dispatch({type: 'fill-profile', data: {username : profile.data.username, email: profile.data.email , phone:profile.data.phone}})
         navigate("/")
     } catch (axiosError) {
         if (axiosError.response?.data) {

@@ -3,6 +3,7 @@ package org.project.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.project.dto.AuthDTO;
 import org.project.dto.request.LoginRequestDTO;
 import org.project.dto.request.RegisterRequestDTO;
 import org.project.dto.response.LoginResponse;
@@ -62,6 +63,11 @@ public class AuthController {
         authService.logout(tokenWithPrefix);
         var cookie = ResponseCookie.from("hoax-token", "").path("/").maxAge(0).httpOnly(true).build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("Logout success");
+    }
+
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable Long id, @RequestParam String email, @RequestParam String username, @RequestHeader(name="Authorization") String authHeader){
+        authService.updateUser(id, email,username, authHeader);
     }
 
 
