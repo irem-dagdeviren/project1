@@ -7,9 +7,9 @@ import {UserEditForm} from "@/pages/UserDetail/components/ProfileCard/UserEditFo
 export function ProfileCard({ user }) {
     const authState = useAuthState()
     const [editMode ,setEditMode] = useState(false)
-    const [newUsername ,setNewUsername] = useState(authState.username)
-    const [newMail ,setNewMail] = useState(authState.email)
-    const [newPhone ,setNewPhone] = useState(authState.phone)
+    const [newUsername ,setNewUsername] = useState(user.username)
+    const [newMail ,setNewMail] = useState(user.email)
+    const [newPhone ,setNewPhone] = useState(user.phone)
     const [errors, setErrors] = useState({});
     const isEditButtonVisible = !editMode && authState.id === user.authId
 
@@ -55,7 +55,7 @@ export function ProfileCard({ user }) {
                   alt=""/>
           </div>
           <div className="card-body text-center">
-              <span className="fs-3 d-block "> {authState.id}</span>
+              <span className="fs-3 d-block "> {user.authId}</span>
               {!editMode &&
                   <div>
                       <span className="fs-3 d-block "> {visibleUsername}</span>
