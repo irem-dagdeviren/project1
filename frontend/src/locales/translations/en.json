@@ -1,0 +1,20 @@
+{
+  "signUp": "Sign Up",
+  "username": "Username",
+  "phone": "Phone",
+  "password": "Password",
+  "repassword": "Password Repeat",
+  "email": "E-mail",
+  "passwordMismatch": "Passwords mismatch!",
+  "generalError": "Unexpected error ocured. try again please",
+  "createSuccesful": "Created succesfully",
+  "homepage" : "Home Page",
+  "appName": "Starbucks",
+  "activationSuccessful": "Activation Successful",
+  "login" : "login",
+  "profile" : "My Profile",
+  "logout" : "Logout",
+  "save" : "Save",
+  "cancel" : "Cancel"
+
+}

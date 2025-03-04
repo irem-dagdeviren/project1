@@ -1,7 +1,9 @@
 dependencies {
+    implementation project(':Common-exceptions')
     implementation libs.springBootDataMongo
     implementation libs.lombok
     annotationProcessor libs.lombok
     implementation libs.springCloudConfigClient
     implementation libs.sprinBootDataRedis
+    implementation libs.springCloudStarterOpenFeigh
 }

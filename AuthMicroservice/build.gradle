@@ -1,8 +1,12 @@
 dependencies {
+    implementation project(':Common-exceptions')
     implementation libs.sprinBootDataJpa
     implementation libs.postgreSQL
     implementation libs.lombok
     annotationProcessor libs.lombok
     implementation libs.springCloudStarterOpenFeigh
     implementation libs.springCloudConfigClient
+    implementation libs.sprinBootStarterSecurity
+    implementation libs.sprinBootStarterOAuth2
+    implementation libs.sprinBootStarterMail
 }

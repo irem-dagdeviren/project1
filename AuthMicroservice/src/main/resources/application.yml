@@ -2,7 +2,38 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+  web:
+    locale: en
   config:
     import: "configserver:"
   application:
     name: auth-application
+  security:
+    user:
+      name: user
+      password: user
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: strict
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
+custom:
+  email:
+    password: ${EMAIL_PASS}
+    username: maximillia.schultz16@ethereal.email
+    host: smtp.ethereal.email
+    port: 587
+    from: noreply@project.com
+    protocol: smtp
+  client:
+    host: http://localhost:5173/activation/
+
+
+
+
